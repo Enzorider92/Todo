@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+
+{% if users is not empty %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Email</td>
+            <td>Tasks</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.email}}</td>
+                <td><a href="{{path('user_detail',{id:user.id})}}"><i class="fas fa-info"></i></a></td>
+                <td>
+                    {% if app.user%}
+                        <a href="{{path('user_edit', {id:user.id})}}"><i class="far fa-edit"></i></a>
+                        <a href="{{path('user_delete', {id:user.id})}}"><i class="fas fa-trash"></i></a>
+                    {% else %}
+                        <span>Connect to do something</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+
+<p class="mx-auto">There is no users</p>
+
+{% endif %}
+
+{% endblock %}

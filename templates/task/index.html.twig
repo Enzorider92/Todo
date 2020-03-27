@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Task{% endblock %}
+
+{% block body %}
+
+{% if tasks is not empty%}
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Deadline</td>
+            <td>User</td>
+            <td>State</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for task in tasks %}
+        <tr>
+            <td>{{task.name}}</td>
+            <td>{{task.deadline|date("m/d/Y")}}</td>
+            <td>
+                {% if task.user != null %}
+                {{task.user.firstName}}
+                {% endif %}
+           </td>
+            {% if task.state == true %}
+            <td><span class="badge badge-pill badge-success">Finish</span></td>
+            {% else %}
+            <td><span class="badge badge-pill badge-danger">Work in progress</span></td>
+            {% endif %}
+            <td>
+                {% if app.user %}
+                    <a href="{{path('task_edit', {id:task.id})}}"><i class="far fa-edit"></i></a>
+                    <a href="{{path('task_delete', {id:task.id})}}"><i class="fas fa-trash"></i></a>
+                    <a href="{{path('task_detail',{id:task.id})}}"><i class="fas fa-info"></i></a>
+                {% else %}
+                <span>Connect to do something</span>
+                {% endif %}    
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+
+Il n'y a pas de tâches
+
+{% endif %}
+{% endblock %}
